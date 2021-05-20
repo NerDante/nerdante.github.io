@@ -253,7 +253,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">7</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">8</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -367,6 +367,20 @@
               <span id="busuanzi_value_page_pv"></span>
             </span>
           
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2019/10/10/Git常用命令一览/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2019/10/10/Git常用命令一览/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
 
         </div>
       </header>
@@ -434,14 +448,18 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
+                <a href="/2019/10/10/git设置ssh-key免输密码/" rel="next" title="git设置ssh-key免输密码">
+                  <i class="fa fa-chevron-left"></i> git设置ssh-key免输密码
+                </a>
+              
             </div>
 
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/10/10/git设置ssh-key免输密码/" rel="prev" title="git设置ssh-key免输密码">
-                  git设置ssh-key免输密码 <i class="fa fa-chevron-right"></i>
+                <a href="/2019/10/12/PDF-XChange-Viewer-设置背景颜色/" rel="prev" title="PDF-XChange Viewer 设置背景颜色">
+                  PDF-XChange Viewer 设置背景颜色 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -459,6 +477,9 @@
 
           </div>
           
+    
+    <div class="comments" id="comments"></div>
+  
 
         </div>
           
@@ -507,7 +528,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -568,7 +589,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -659,6 +680,33 @@
   
 
   
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: '1Rsw27kXwGB6A47zLQ2Je9LJ-gzGzoHsz',
+    appKey: 'T2hb0ClVzg8pBhbJgMkCcKBS',
+    placeholder: 'Just say someting',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
 
 </body>
 <!-- 页面点击小红心 -->

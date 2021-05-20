@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":true,"show_result":true,"style":"default"},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="1 Linux 时间表示1.1 time_t 时间类型time_t类型定义在time.h中：1234#ifndef __TIME_T#define __TIME_Ttypedef long time_t#endif">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux时间转换及编程接口">
+<meta property="og:url" content="http://yoursite.com/2021/05/20/linux时间转换及编程接口/index.html">
+<meta property="og:site_name" content="强大人的小屋">
+<meta property="og:description" content="1 Linux 时间表示1.1 time_t 时间类型time_t类型定义在time.h中：1234#ifndef __TIME_T#define __TIME_Ttypedef long time_t#endif">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://i.loli.net/2021/05/15/GUiuAD7TXwPMlfK.png">
+<meta property="og:updated_time" content="2021-05-20T13:12:06.679Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux时间转换及编程接口">
+<meta name="twitter:description" content="1 Linux 时间表示1.1 time_t 时间类型time_t类型定义在time.h中：1234#ifndef __TIME_T#define __TIME_Ttypedef long time_t#endif">
+<meta name="twitter:image" content="https://i.loli.net/2021/05/15/GUiuAD7TXwPMlfK.png">
+  <link rel="canonical" href="http://yoursite.com/2021/05/20/linux时间转换及编程接口/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>linux时间转换及编程接口 | 强大人的小屋</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+    <a href="https://github.com/nerdante" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">强大人的小屋</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">随风而动，随性而为</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-home">
+      
+    
+      
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-about">
+      
+    
+      
+      
+        
+      
+        
+      
+        
+      
+    
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-tags">
+      
+    
+      
+      
+        
+      
+        
+      
+        
+          
+        
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">7</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-categories">
+      
+    
+      
+      
+        
+      
+        
+          
+        
+      
+        
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">4</span></a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-archives">
+      
+    
+      
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">8</span></a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger">
+        
+          <i class="fa fa-search fa-fw"></i>搜索</a>
+      </li>
+    
+  </ul>
+
+</nav>
+  <div class="site-search">
+    <div class="popup search-popup">
+    <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocorrect="off" autocapitalize="none"
+           placeholder="搜索..." spellcheck="false"
+           type="text" id="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result"></div>
+
+</div>
+<div class="search-pop-overlay"></div>
+
+  </div>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+            
+
+          <div id="content" class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/20/linux时间转换及编程接口/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="强大人">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="强大人的小屋">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">linux时间转换及编程接口
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              
+                
+              
+
+              <time title="创建时间：2021-05-20 21:09:11 / 修改时间：21:12:06" itemprop="dateCreated datePublished" datetime="2021-05-20T21:09:11+08:00">2021-05-20</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+        
+      
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/05/20/linux时间转换及编程接口/#comments" itemprop="discussionUrl"><span class="post-comments-count valine-comment-count" data-xid="/2021/05/20/linux时间转换及编程接口/" itemprop="commentCount"></span></a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="1-Linux-时间表示"><a href="#1-Linux-时间表示" class="headerlink" title="1 Linux 时间表示"></a>1 Linux 时间表示</h2><h3 id="1-1-time-t-时间类型"><a href="#1-1-time-t-时间类型" class="headerlink" title="1.1 time_t 时间类型"></a>1.1 time_t 时间类型</h3><p>time_t类型定义在time.h中：</p><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> __TIME_T</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> __TIME_T</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="keyword">long</span> <span class="keyword">time_t</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure><a id="more"></a>
+
+
+<p>可见，time_t实际是一个长整型。其值表示为从UTC（coordinated universal time）时间1970年1月1日00时00分00秒（也称为Linux系统的Epoch时间）到当前时刻的秒数。由于time_t类型长度的限制，它所表示的时间不能晚于2038年1月19日03时14分07秒（UTC）。为了能够表示更久远的时间，可用64位或更长的整型数来保存日历时间。</p>
+<p>time_t类型的时间可以通过time()函数获取。</p>
+<h3 id="1-2-struct-tm-表示"><a href="#1-2-struct-tm-表示" class="headerlink" title="1.2 struct tm 表示"></a>1.2 struct tm 表示</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">tm</span> &#123;</span></span><br><span class="line">        <span class="keyword">int</span> tm_sec; <span class="comment">/* seconds ,[0,59] */</span></span><br><span class="line">        <span class="keyword">int</span> tm_min; <span class="comment">/* minutes, [0,59] */</span></span><br><span class="line">        <span class="keyword">int</span> tm_hour; <span class="comment">/* hours, [0,23]*/</span></span><br><span class="line">        <span class="keyword">int</span> tm_mday; <span class="comment">/* day of the month, [1,31]*/</span></span><br><span class="line">        <span class="keyword">int</span> tm_mon; <span class="comment">/* month,[0,11]*/</span></span><br><span class="line">        <span class="keyword">int</span> tm_year; <span class="comment">/* year, years since 1900*/</span></span><br><span class="line">        <span class="keyword">int</span> tm_wday; <span class="comment">/* day of the week,[0,6], 0 as sunday, 1, monday*/</span></span><br><span class="line">        <span class="keyword">int</span> tm_yday; <span class="comment">/* day in the year,[0,365],0 1月1ri*/</span></span><br><span class="line">        <span class="keyword">int</span> tm_isdst; <span class="comment">/* daylight saving time*/</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>使用gmtime()和localtime()可将time_t时间类型转换为struct tm结构体；</p>
+<p>使用mktime()可将struct tm结构体转换为time_t时间类型；</p>
+<p>使用asctime()将struct tm转换为字符串形式。</p>
+<h3 id="1-3-struct-timeval-时间结构"><a href="#1-3-struct-timeval-时间结构" class="headerlink" title="1.3 struct timeval 时间结构"></a>1.3 struct timeval 时间结构</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/time.h&gt;</span></span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">timeval</span> &#123;</span></span><br><span class="line">    <span class="keyword">time_t</span>      tv_sec;  <span class="comment">/* seconds */</span></span><br><span class="line">    <span class="keyword">suseconds_t</span> tv_usec; <span class="comment">/* microseconds */</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>tv_sec是time_t时间类型，其值也表示为从UTC（coordinated universal time）时间1970年1月1日00时00分00秒（也称为Linux系统的Epoch时间）到当期时刻的秒数。</p>
+<p>设置时间函数settimeofday()与获取时间函数gettimeofday()均使用该事件类型作为参数传递。</p>
+<h3 id="1-4-struct-timespec-时间结构"><a href="#1-4-struct-timespec-时间结构" class="headerlink" title="1.4 struct timespec 时间结构"></a>1.4 struct timespec 时间结构</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">timespec</span> &#123;</span></span><br><span class="line">    <span class="keyword">time_t</span>   tv_sec;        <span class="comment">/* seconds */</span></span><br><span class="line">    <span class="keyword">long</span>     tv_nsec;       <span class="comment">/* nanoseconds */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-Linux-时间编程接口"><a href="#2-Linux-时间编程接口" class="headerlink" title="2 Linux 时间编程接口"></a>2 Linux 时间编程接口</h2><h3 id="2-1-time-函数和stime-函数"><a href="#2-1-time-函数和stime-函数" class="headerlink" title="2.1 time()函数和stime()函数"></a>2.1 time()函数和stime()函数</h3><p>按照秒数获取时间</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="keyword">time_t</span> time(<span class="keyword">time_t</span> *tloc);</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">DESCRIPTION time()  returns  the  time  as  the  number of seconds since the Epoch,</span></span><br><span class="line"><span class="comment">       1970-01-01 00:00:00 +0000 (UTC).</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">       If tloc is non-NULL, the return value is  also  stored  in  the  memory</span></span><br><span class="line"><span class="comment">       pointed to by tloc.</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">RETURN VALUE</span></span><br><span class="line"><span class="comment">       On  success,  the value of time in seconds since the Epoch is returned.</span></span><br><span class="line"><span class="comment">       On error, ((time_t) -1) is returned, and errno is set appropriately.</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>按照秒设置时间</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">stime</span><span class="params">(<span class="keyword">const</span> <span class="keyword">time_t</span> *t)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-gmtime（）函数"><a href="#2-2-gmtime（）函数" class="headerlink" title="2.2 gmtime（）函数"></a>2.2 gmtime（）函数</h3><p>gmtime 用于将日历时间(time_t)转化为struct tm时间（broken-dwon time）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="function">struct tm *<span class="title">gmtime</span><span class="params">(<span class="keyword">const</span> <span class="keyword">time_t</span> *timep)</span></span>;</span><br><span class="line"><span class="function">struct tm *<span class="title">gmtime_r</span><span class="params">(<span class="keyword">const</span> <span class="keyword">time_t</span> *timep, struct tm *result)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-localtime-函数"><a href="#2-3-localtime-函数" class="headerlink" title="2.3 localtime() 函数"></a>2.3 localtime() 函数</h3><p>localtime 是按照本地时区将 time_t 转化为 struct tm 时间</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">struct tm *<span class="title">localtime</span><span class="params">(<span class="keyword">const</span> <span class="keyword">time_t</span> *timep)</span></span>;</span><br><span class="line"><span class="function">struct tm *<span class="title">localtime_r</span><span class="params">(<span class="keyword">const</span> <span class="keyword">time_t</span> *timep, struct tm *result)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-ctime"><a href="#2-4-ctime" class="headerlink" title="2.4 ctime()"></a>2.4 ctime()</h3><p>该函数是把日历时间转化为本地时间的字符串形式</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">ctime</span><span class="params">(<span class="keyword">const</span> <span class="keyword">time_t</span> *timep)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">ctime_r</span><span class="params">(<span class="keyword">const</span> <span class="keyword">time_t</span> *timep, <span class="keyword">char</span> *buf)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-asctime"><a href="#2-5-asctime" class="headerlink" title="2.5 asctime()"></a>2.5 asctime()</h3><p>asctime 用于将broken-down time 转化为字符串</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">asctime</span><span class="params">(<span class="keyword">const</span> struct tm *tm)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">char</span> *<span class="title">asctime_r</span><span class="params">(<span class="keyword">const</span> struct tm *tm, <span class="keyword">char</span> *buf)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-6-mktime"><a href="#2-6-mktime" class="headerlink" title="2.6 mktime()"></a>2.6 mktime()</h3><p>mktime 用于将broken-down time 转换为秒数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">time_t</span> mktime(struct tm *tm);</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-7-gettimeofday-和-settimeofday"><a href="#2-7-gettimeofday-和-settimeofday" class="headerlink" title="2.7 gettimeofday() 和 settimeofday()"></a>2.7 gettimeofday() 和 settimeofday()</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/time.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">gettimeofday</span><span class="params">(struct timeval *tv, struct timezone *tz)</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">settimeofday</span><span class="params">(<span class="keyword">const</span> struct timeval *tv, <span class="keyword">const</span> struct timezone *tz)</span></span>;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">The functions gettimeofday() and settimeofday() can get and set the time as well as a timezone.</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">The tv argument is a struct timeval (as specified in &lt;sys/time.h&gt;):</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">timeval</span> &#123;</span></span><br><span class="line">       <span class="keyword">time_t</span>      tv_sec;     <span class="comment">/* seconds */</span></span><br><span class="line">       <span class="keyword">suseconds_t</span> tv_usec;    <span class="comment">/* microseconds */</span></span><br><span class="line">   &#125;;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">and gives the number of seconds and microseconds since the Epoch (see time(2)).</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">The tz argument is a struct timezone:</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">   <span class="class"><span class="keyword">struct</span> <span class="title">timezone</span> &#123;</span></span><br><span class="line">       <span class="keyword">int</span> tz_minuteswest;     <span class="comment">/* minutes west of Greenwich */</span></span><br><span class="line">       <span class="keyword">int</span> tz_dsttime;         <span class="comment">/* type of DST correction */</span></span><br><span class="line">   &#125;;</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">If either tv or tz is NULL, the corresponding structure is not set or returned.  (However, compilation warnings will result if tv is NULL.)</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">The use of the timezone structure is obsolete; the tz argument should normally be specified as NULL.  (See NOTES below.)</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">Under Linux, there are some peculiar "warp clock" semantics associated with the settimeofday() system call if on the very first call (after boot‐</span></span><br><span class="line"><span class="comment">ing) that has a non-NULL tz argument, the tv argument is NULL and the tz_minuteswest field is nonzero.  (The tz_dsttime field should be zero  for</span></span><br><span class="line"><span class="comment">this  case.)  In such a case it is assumed that the CMOS clock is on local time, and that it has to be incremented by this amount to get UTC sys‐</span></span><br><span class="line"><span class="comment">tem time.  No doubt it is a bad idea to use this feature.</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<p>该函数用于获取从UTC（coordinated universal time）时间1970年1月1日00时00分00秒（也称为Linux系统的Epoch时间）到当前时刻的时间差，并将此时间存入tv指向的结构体中，当地时区信息则放到tz指向的结构体中；该函数常用于计算耗时。函数执行成功返回0，否则返回-1，错误代码存于errno。<br>参数tv用于存放返回从UTC（coordinated universal time）时间1970年1月1日00时00分00秒（也称为Linux系统的Epoch时间）到当前时刻的时差，时间差以秒或微妙为单位；</p>
+<p>参数tz常设置为NULL，因为libc或glibc中并未支持tz，因此在Linux中未使用；struct timezone结构体定义如下：</p>
+<h3 id="2-8-strftime"><a href="#2-8-strftime" class="headerlink" title="2.8 strftime()"></a>2.8 strftime()</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="keyword">size_t</span> strftime(<span class="keyword">char</span> *s, <span class="keyword">size_t</span> max, <span class="keyword">const</span> <span class="keyword">char</span> *format, <span class="keyword">const</span> struct tm *tm);</span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>Sepicifer</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%%</td>
+<td>A % character</td>
+<td>%</td>
+</tr>
+<tr>
+<td>%a</td>
+<td>Abbreviated weekday name</td>
+<td>Tue</td>
+</tr>
+<tr>
+<td>%A</td>
+<td>Full weekday name</td>
+<td>Tuestay</td>
+</tr>
+<tr>
+<td>%b,%h</td>
+<td>Abbreviated month name</td>
+<td>Feb</td>
+</tr>
+<tr>
+<td>%B</td>
+<td>Full month name</td>
+<td>February</td>
+</tr>
+<tr>
+<td>%c</td>
+<td>Date and time</td>
+<td>Tue Feb 1 21:39:46 2011</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>Day of month,01 to 31</td>
+<td>01</td>
+</tr>
+<tr>
+<td>%D</td>
+<td>American date(same as %m%d%y)</td>
+<td>01/01/11</td>
+</tr>
+<tr>
+<td>%e</td>
+<td>Day of month</td>
+<td>01</td>
+</tr>
+<tr>
+<td>%F</td>
+<td>ISO date(same as %Y-%m-%d)</td>
+<td>2011-02-01</td>
+</tr>
+<tr>
+<td>%H</td>
+<td>Hour (24-hour clock, 2 digits)</td>
+<td>21</td>
+</tr>
+<tr>
+<td>%I</td>
+<td>Hour (12-hour clock, 2 digits)</td>
+<td>9</td>
+</tr>
+<tr>
+<td>%j</td>
+<td>day of year(3 digits, 001 to 366)</td>
+<td>032</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>Decimal month(2 digits,01 to 12)</td>
+<td>02</td>
+</tr>
+<tr>
+<td>%M</td>
+<td>Minute(2 digits)</td>
+<td>39</td>
+</tr>
+<tr>
+<td>%p</td>
+<td>AM/PM</td>
+<td>PM</td>
+</tr>
+<tr>
+<td>%P</td>
+<td>am/pm(GNUextention)</td>
+<td>pm</td>
+</tr>
+<tr>
+<td>%R</td>
+<td>24-hour time(same as %H:%M)</td>
+<td>21:39</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>Second(00 to 60)</td>
+<td>46</td>
+</tr>
+<tr>
+<td>%T</td>
+<td>Time(same as %H:%M:%S)</td>
+<td>21:39:46</td>
+</tr>
+<tr>
+<td>%u</td>
+<td>Weekday number(1 to 7, Monday = 1)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>%U</td>
+<td>Sunday Week number(00 to 53)</td>
+<td>05</td>
+</tr>
+<tr>
+<td>%w</td>
+<td>weekday number(0 to 6, Sunday = 0)</td>
+<td>2</td>
+</tr>
+<tr>
+<td>%W</td>
+<td>Monday week number(00 to 53)</td>
+<td>05</td>
+</tr>
+<tr>
+<td>%x</td>
+<td>Date(localized)</td>
+<td>02/01/11</td>
+</tr>
+<tr>
+<td>%X</td>
+<td>Time(localized)</td>
+<td>21:39:46</td>
+</tr>
+<tr>
+<td>%y</td>
+<td>2-digits-year</td>
+<td>11</td>
+</tr>
+<tr>
+<td>%Y</td>
+<td>4-digits-year</td>
+<td>2011</td>
+</tr>
+<tr>
+<td>%Z</td>
+<td>Timezone name</td>
+<td>CET</td>
+</tr>
+</tbody></table>
+<p>该函数将参数tm结构的时间结构，参照参数format所指定的字符串格式做转换(类似于printf)。</p>
+<h2 id="3-时间转换示例"><a href="#3-时间转换示例" class="headerlink" title="3 时间转换示例"></a>3 时间转换示例</h2><p><img src="https://i.loli.net/2021/05/15/GUiuAD7TXwPMlfK.png" alt="Linux 时间转换关系"></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/time.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// time in seconds</span></span><br><span class="line">    <span class="keyword">time_t</span> seconds;</span><br><span class="line">    seconds = time(<span class="literal">NULL</span>);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"seconds = %ld\n"</span>, seconds);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// time_t to string</span></span><br><span class="line">    <span class="keyword">char</span> *ptr = <span class="literal">NULL</span>;</span><br><span class="line">    ptr = ctime(&amp;seconds);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"ptr = %s\n"</span>, ptr);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//broken-down time</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">tm</span> *<span class="title">stm</span> = <span class="title">NULL</span>;</span></span><br><span class="line">    stm = gmtime(&amp;seconds);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"struct tm style of time: %04d-%02d-%02d %02d:%02d:%02d\n"</span>,</span><br><span class="line">           stm-&gt;tm_year + <span class="number">1900</span>,</span><br><span class="line">           stm-&gt;tm_mon + <span class="number">1</span>,</span><br><span class="line">           stm-&gt;tm_mday,</span><br><span class="line">           stm-&gt;tm_hour,</span><br><span class="line">           stm-&gt;tm_min,</span><br><span class="line">           stm-&gt;tm_sec);</span><br><span class="line"></span><br><span class="line">    stm = localtime(&amp;seconds);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"localtime,struct tm style of time: %04d-%02d-%02d %02d:%02d:%02d\n"</span>,</span><br><span class="line">           stm-&gt;tm_year + <span class="number">1900</span>,</span><br><span class="line">           stm-&gt;tm_mon + <span class="number">1</span>,</span><br><span class="line">           stm-&gt;tm_mday,</span><br><span class="line">           stm-&gt;tm_hour,</span><br><span class="line">           stm-&gt;tm_min,</span><br><span class="line">           stm-&gt;tm_sec);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// mktime: broken-down time to utc</span></span><br><span class="line">    <span class="keyword">time_t</span> sec2;</span><br><span class="line">    sec2 = mktime(stm);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"sec2 = %ld\n"</span>, sec2);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// strftime</span></span><br><span class="line">    <span class="keyword">char</span> strTime[<span class="number">64</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    strftime(strTime, <span class="keyword">sizeof</span>(strTime), <span class="string">"%Y-%m-%d %H:%M:%S"</span>, stm);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"strTime = %s\n"</span>, strTime);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>执行输出结果为：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">seconds = 1621344239</span><br><span class="line">ptr = Tue May 18 21:23:59 2021</span><br><span class="line"></span><br><span class="line">struct tm style of time: 2021-05-18 13:23:59</span><br><span class="line">localtime,struct tm style of time: 2021-05-18 21:23:59</span><br><span class="line">sec2 = 1621344239</span><br><span class="line">strTime = 2021-05-18 21:23:59</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-获取-linux-的系统运行时间"><a href="#4-获取-linux-的系统运行时间" class="headerlink" title="4 获取 linux 的系统运行时间"></a>4 获取 linux 的系统运行时间</h2><p>有些时候我们不但关心系统的当前时间，还会关心系统的运行时间。在linux下有多种方式可以获取系统的运行时间，<br>常用的有如下几种：</p>
+<h3 id="4-1-日常查看命令-uptime"><a href="#4-1-日常查看命令-uptime" class="headerlink" title="4.1 日常查看命令 uptime"></a>4.1 日常查看命令 uptime</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:~$ uptime</span><br><span class="line"> 21:31:45 up 6 days,  3:27,  3 users,  load average: 0.10, 0.08, 0.08</span><br></pre></td></tr></table></figure>
+
+<p>可以看出系统的运行时间为 6天3小时27分</p>
+<h3 id="4-2-proc-uptime-记录"><a href="#4-2-proc-uptime-记录" class="headerlink" title="4.2 /proc/uptime 记录"></a>4.2 /proc/uptime 记录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">:~$ cat /proc/uptime</span><br><span class="line">530942.86 1049865.49</span><br></pre></td></tr></table></figure>
+
+<p>第一个值为系统启动到现在的时间，以秒为单位.<br>第二个值为系统空闲的时间，该值还与逻辑cpu的个数有关，可能会是第一个值得好几倍.</p>
+<h3 id="4-3-通过系统调用获取"><a href="#4-3-通过系统调用获取" class="headerlink" title="4.3 通过系统调用获取"></a>4.3 通过系统调用获取</h3><p>uptime可以通过 sysinfo()系统调用获取到</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/sysinfo.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sysinfo</span><span class="params">(struct sysinfo *info)</span></span>;</span><br><span class="line"><span class="comment">// linux 2.3.16 以前的 struct sysinfo结构如下，后面更新的版本会有更多的字段，不过此处我们只会使用 uptime。</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sysinfo</span> &#123;</span></span><br><span class="line">   <span class="keyword">long</span> uptime;             <span class="comment">/* Seconds since boot */</span></span><br><span class="line">   <span class="keyword">unsigned</span> <span class="keyword">long</span> loads[<span class="number">3</span>];  <span class="comment">/* 1, 5, and 15 minute load averages */</span></span><br><span class="line">   <span class="keyword">unsigned</span> <span class="keyword">long</span> totalram;  <span class="comment">/* Total usable main memory size */</span></span><br><span class="line">   <span class="keyword">unsigned</span> <span class="keyword">long</span> freeram;   <span class="comment">/* Available memory size */</span></span><br><span class="line">   <span class="keyword">unsigned</span> <span class="keyword">long</span> sharedram; <span class="comment">/* Amount of shared memory */</span></span><br><span class="line">   <span class="keyword">unsigned</span> <span class="keyword">long</span> bufferram; <span class="comment">/* Memory used by buffers */</span></span><br><span class="line">   <span class="keyword">unsigned</span> <span class="keyword">long</span> totalswap; <span class="comment">/* Total swap space size */</span></span><br><span class="line">   <span class="keyword">unsigned</span> <span class="keyword">long</span> freeswap;  <span class="comment">/* Swap space still available */</span></span><br><span class="line">   <span class="keyword">unsigned</span> <span class="keyword">short</span> procs;     <span class="comment">/* Number of current processes */</span></span><br><span class="line">   <span class="keyword">char</span> _f[<span class="number">22</span>];                      <span class="comment">/* Pads structure to 64 bytes */</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>示例如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/sysinfo.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> ONEDAYSECONDS (24*3600)</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">sysinfo</span> <span class="title">info</span>;</span></span><br><span class="line">    <span class="keyword">int</span> runday, runhour, runmin, runsec;</span><br><span class="line">    <span class="keyword">char</span> strRunTime[<span class="number">256</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">    <span class="keyword">if</span>(sysinfo(&amp;info) &lt; <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"get sysinfo fail\n"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"system uptime  = %ld  seconds\n"</span>, info.uptime);</span><br><span class="line">    runday = info.uptime / ONEDAYSECONDS;</span><br><span class="line">    runhour = (info.uptime % ONEDAYSECONDS)/<span class="number">3600</span>;</span><br><span class="line">    runmin = (info.uptime % <span class="number">3600</span>)/<span class="number">60</span>;</span><br><span class="line">    runsec = info.uptime % <span class="number">60</span>;</span><br><span class="line">    <span class="built_in">sprintf</span>(strRunTime,<span class="string">"系统已运行：%d天%d时%d分%d秒"</span>,runday,runhour,runmin,runsec);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"strRunTime = %s\n"</span>, strRunTime);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+          
+            
+          
+          <div class="post-tags">
+            
+              <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+            
+          </div>
+        
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/15/samba服务器配置/" rel="next" title="Linux 下 Samba 服务器配置samb目录为用户的home目录">
+                  <i class="fa fa-chevron-left"></i> Linux 下 Samba 服务器配置samb目录为用户的home目录
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+    <div class="comments" id="comments"></div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Linux-时间表示"><span class="nav-number">1.</span> <span class="nav-text">1 Linux 时间表示</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-time-t-时间类型"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 time_t 时间类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-struct-tm-表示"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 struct tm 表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-struct-timeval-时间结构"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 struct timeval 时间结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-struct-timespec-时间结构"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 struct timespec 时间结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Linux-时间编程接口"><span class="nav-number">2.</span> <span class="nav-text">2 Linux 时间编程接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-time-函数和stime-函数"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 time()函数和stime()函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-gmtime（）函数"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 gmtime（）函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-localtime-函数"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 localtime() 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-4-ctime"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 ctime()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-5-asctime"><span class="nav-number">2.5.</span> <span class="nav-text">2.5 asctime()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-6-mktime"><span class="nav-number">2.6.</span> <span class="nav-text">2.6 mktime()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-7-gettimeofday-和-settimeofday"><span class="nav-number">2.7.</span> <span class="nav-text">2.7 gettimeofday() 和 settimeofday()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-8-strftime"><span class="nav-number">2.8.</span> <span class="nav-text">2.8 strftime()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-时间转换示例"><span class="nav-number">3.</span> <span class="nav-text">3 时间转换示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-获取-linux-的系统运行时间"><span class="nav-number">4.</span> <span class="nav-text">4 获取 linux 的系统运行时间</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-日常查看命令-uptime"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 日常查看命令 uptime</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-proc-uptime-记录"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 /proc/uptime 记录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-3-通过系统调用获取"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 通过系统调用获取</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image"
+      src="/images/head.jpg"
+      alt="强大人">
+  <p class="site-author-name" itemprop="name">强大人</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-tags">
+        
+          
+            <a href="/tags/">
+          
+        
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/nerdante" title="GitHub &rarr; https://github.com/nerdante" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">强大人</span>
+</div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+  
+    <span class="post-meta-divider">|</span>
+  
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+    
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99# The number of lines' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/pisces.js?v=7.4.1"></script>
+
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="/js/local-search.js?v=7.4.1"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: '1Rsw27kXwGB6A47zLQ2Je9LJ-gzGzoHsz',
+    appKey: 'T2hb0ClVzg8pBhbJgMkCcKBS',
+    placeholder: 'Just say someting',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
+
+</body>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/clicklove.js"></script>
+</html>
+
+

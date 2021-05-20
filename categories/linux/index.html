@@ -249,7 +249,7 @@
       
     
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">7</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">8</span></a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -329,6 +329,40 @@
       </div>
 
       
+
+  
+  
+
+  
+    
+    <div class="collection-year">
+      <h1 class="collection-header">2021</h1>
+    </div>
+  
+
+  <article itemscope itemtype="http://schema.org/Article">
+    <header class="post-header">
+
+      <div class="post-meta">
+        <time itemprop="dateCreated"
+              datetime="2021-05-20T21:09:11+08:00"
+              content="2021-05-20">
+          05-20
+        </time>
+      </div>
+
+      <h2 class="post-title">
+        
+          <a class="post-title-link" href="/2021/05/20/linux时间转换及编程接口/" itemprop="url">
+            <span itemprop="name">linux时间转换及编程接口</span>
+          </a>
+        
+      </h2>
+
+    </header>
+  </article>
+
+
 
   
   
@@ -446,7 +480,7 @@
         
           <a href="/archives/">
         
-          <span class="site-state-item-count">7</span>
+          <span class="site-state-item-count">8</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -507,7 +541,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -598,6 +632,33 @@
   
 
   
+
+
+<script>
+NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+  var GUEST = ['nick', 'mail', 'link'];
+  var guest = 'nick,mail,link';
+  guest = guest.split(',').filter(item => {
+    return GUEST.includes(item);
+  });
+  new Valine({
+    el: '#comments',
+    verify: false,
+    notify: false,
+    appId: '1Rsw27kXwGB6A47zLQ2Je9LJ-gzGzoHsz',
+    appKey: 'T2hb0ClVzg8pBhbJgMkCcKBS',
+    placeholder: 'Just say someting',
+    avatar: 'mm',
+    meta: guest,
+    pageSize: '10' || 10,
+    visitor: false,
+    lang: '' || 'zh-cn',
+    path: location.pathname,
+    recordIP: false,
+    serverURLs: ''
+  });
+}, window.Valine);
+</script>
 
 </body>
 <!-- 页面点击小红心 -->
